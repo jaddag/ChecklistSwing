@@ -1,19 +1,18 @@
-C:\Users\Notebook\Desktop\Arbeit\ToDoList\Todolist\src\main\java\customExceptions\noSuchNameError.java
-C:\Users\Notebook\Desktop\Arbeit\ToDoList\Todolist\src\main\java\data\CheckListItem.java
-C:\Users\Notebook\Desktop\Arbeit\ToDoList\Todolist\src\main\java\data\DataManagement.java
-C:\Users\Notebook\Desktop\Arbeit\ToDoList\Todolist\src\main\java\data\Priority.java
-C:\Users\Notebook\Desktop\Arbeit\ToDoList\Todolist\src\main\java\data\Priority1.java
-C:\Users\Notebook\Desktop\Arbeit\ToDoList\Todolist\src\main\java\database\DBManager.java
-C:\Users\Notebook\Desktop\Arbeit\ToDoList\Todolist\src\main\java\languageSupport\Config.java
-C:\Users\Notebook\Desktop\Arbeit\ToDoList\Todolist\src\main\java\languageSupport\LanguageSupport.java
-C:\Users\Notebook\Desktop\Arbeit\ToDoList\Todolist\src\main\java\languageSupport\TranslatorBeta.java
-C:\Users\Notebook\Desktop\Arbeit\ToDoList\Todolist\src\main\java\timedata\ClockManipulator.java
-C:\Users\Notebook\Desktop\Arbeit\ToDoList\Todolist\src\main\java\timedata\DateManipulator.java
-C:\Users\Notebook\Desktop\Arbeit\ToDoList\Todolist\src\main\java\timedata\TimeManipulator.java
-C:\Users\Notebook\Desktop\Arbeit\ToDoList\Todolist\src\main\java\ui\UIChecklistWindow.java
-C:\Users\Notebook\Desktop\Arbeit\ToDoList\Todolist\src\main\java\ui\UIExceptionWindow.java
-C:\Users\Notebook\Desktop\Arbeit\ToDoList\Todolist\src\main\java\ui\UIMainWindow.java
-C:\Users\Notebook\Desktop\Arbeit\ToDoList\Todolist\src\main\java\ui\UIMiscWindow.java
-C:\Users\Notebook\Desktop\Arbeit\ToDoList\Todolist\src\main\java\ui\UIold.java
-C:\Users\Notebook\Desktop\Arbeit\ToDoList\Todolist\src\main\java\ui\UISettingsWindow.java
-C:\Users\Notebook\Desktop\Arbeit\ToDoList\Todolist\src\main\java\uicallback\UpdateUI.java
+/Users/jadendagadu/Programming/checklist project/ChecklistSwing/src/main/java/customExceptions/noSuchNameError.java
+/Users/jadendagadu/Programming/checklist project/ChecklistSwing/src/main/java/data/CheckListItem.java
+/Users/jadendagadu/Programming/checklist project/ChecklistSwing/src/main/java/data/DataManagement.java
+/Users/jadendagadu/Programming/checklist project/ChecklistSwing/src/main/java/data/Priority.java
+/Users/jadendagadu/Programming/checklist project/ChecklistSwing/src/main/java/database/DBManager.java
+/Users/jadendagadu/Programming/checklist project/ChecklistSwing/src/main/java/languageSupport/LanguageSupport.java
+/Users/jadendagadu/Programming/checklist project/ChecklistSwing/src/main/java/languageSupport/TranslatorBeta.java
+/Users/jadendagadu/Programming/checklist project/ChecklistSwing/src/main/java/languageSupport/UIConfig.java
+/Users/jadendagadu/Programming/checklist project/ChecklistSwing/src/main/java/timedata/ClockManipulator.java
+/Users/jadendagadu/Programming/checklist project/ChecklistSwing/src/main/java/timedata/DateManipulator.java
+/Users/jadendagadu/Programming/checklist project/ChecklistSwing/src/main/java/timedata/TimeManipulator.java
+/Users/jadendagadu/Programming/checklist project/ChecklistSwing/src/main/java/ui/UIChecklistWindow.java
+/Users/jadendagadu/Programming/checklist project/ChecklistSwing/src/main/java/ui/UIExceptionWindow.java
+/Users/jadendagadu/Programming/checklist project/ChecklistSwing/src/main/java/ui/UIMainWindow.java
+/Users/jadendagadu/Programming/checklist project/ChecklistSwing/src/main/java/ui/UIMiscWindow.java
+/Users/jadendagadu/Programming/checklist project/ChecklistSwing/src/main/java/ui/UISettingsWindow.java
+/Users/jadendagadu/Programming/checklist project/ChecklistSwing/src/main/java/ui/UIold.java
+/Users/jadendagadu/Programming/checklist project/ChecklistSwing/src/main/java/uicallback/UpdateUI.java

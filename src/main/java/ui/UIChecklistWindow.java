@@ -165,8 +165,6 @@ public class UIChecklistWindow {
         if (cw != null) showStats();
     }
 
-
-
     private void showStats() {
         imageCheck  = UIMiscWindow.getInstance()
                 .loadIcon(UIConfig.CHECKMARK_ICON_PATH);
@@ -240,13 +238,16 @@ public class UIChecklistWindow {
         addSharedRow.accept(getLabel(UIConfig.NOTES_LABEL), notesPane);
         addSharedRow.accept(getLabel(UIConfig.REMINDER_LABEL), toggleReminder);
         if (cli.getTm().isOverdue()) {
-            addSharedRow.accept(getLabel(UIConfig.DUE_LABEL), centeredJLabel(UIConfig.IS_OVERDUE_LABEL));
+            addSharedRow.accept(getLabel(UIConfig.DUE_LABEL), centeredJLabel(UIConfig.THE_TASK_IS_OVERDUE));
         } else if (cli.getCompleted()){
             addSharedRow.accept(getLabel(UIConfig.DUE_LABEL), centeredJLabel(UIConfig.COMPLETED_LABEL));
         } else if (cli.getTm().hoursBeforeDue() <= 24) {
             addSharedRow.accept(getLabel(UIConfig.DUE_LABEL),
                     centeredJLabel(cli.getTm().hoursBeforeDue() + UIConfig.EMPTY + UIConfig.HOURS + UIConfig.EMPTY +
                             cli.getTm().minutesBeforeDue() % 60 + UIConfig.EMPTY + UIConfig.MINUTES));
+        } else if (cli.getTm().hoursBeforeDue() <= 1) {
+            addSharedRow.accept(getLabel(UIConfig.DUE_LABEL),
+                    centeredJLabel(cli.getTm().minutesBeforeDue() % 60 + UIConfig.EMPTY + UIConfig.MINUTES));
         } else {
             addSharedRow.accept(getLabel(UIConfig.DUE_LABEL),
                     centeredJLabel(cli.getTm().daysBeforeDue() + UIConfig.EMPTY + UIConfig.DAYS));
@@ -291,7 +292,7 @@ public class UIChecklistWindow {
             if (iconsOk){ toggleCompleted.setIcon(cli.getCompleted() ? imageCheck : imageCheckbox);
             }else{         toggleCompleted.setText(cli.getCompleted()? UIConfig.CHECKMARKICON : UIConfig.CHECKMARKNEGATEDICON);}
             completedLabel.setText(String.valueOf(cli.getCompleted()));
-            UIMainWindow.getInstance().updateList();
+            UIMainWindow.getInstance().updateListLocal();
         });
 
         toggleReminder.addActionListener(ae -> {
@@ -416,7 +417,4 @@ public class UIChecklistWindow {
         jlabel.setHorizontalAlignment(SwingConstants.CENTER);
         return jlabel;
     }
-
-
-
 }

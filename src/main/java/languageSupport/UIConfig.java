@@ -32,7 +32,8 @@ public class UIConfig {
     public static final String CATEGORY_LABEL = "Category";
     public static final String NOTES_LABEL = "Notes";
     public static final String REMINDER_LABEL = "Reminder";
-    public static final String IS_OVERDUE_LABEL = "The task is overdue";
+    public static final String THE_TASK_IS_OVERDUE = "The task is overdue";
+    public static final String IS_OVERDUE_LABEL = "is overdue";
     public static final String DUE_LABEL = "Due";
     public static final String MINUTES = "Minutes";
     public static final String HOURS = "Stunden";

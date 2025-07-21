@@ -97,7 +97,7 @@ public class DBManager {
     }
 
     public synchronized void updateDataBase() {
-        System.out.println("start updating DataBase");
+//        System.err.println("start updating DataBase");
         String deleteSql = "DELETE FROM test";
         String resetSeq  = "DELETE FROM sqlite_sequence WHERE name = 'test'";
         String insertSql = "INSERT INTO test(" +
@@ -128,7 +128,7 @@ public class DBManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("finished updating DataBase");
+//        System.err.println("finished updating DataBase");
     }
 
 

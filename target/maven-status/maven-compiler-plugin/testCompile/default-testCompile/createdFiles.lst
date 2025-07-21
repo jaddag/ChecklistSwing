@@ -1,2 +1,2 @@
-database\DBManagerTest.class
-ui\UITest.class
+ui/UITest.class
+database/DBManagerTest.class

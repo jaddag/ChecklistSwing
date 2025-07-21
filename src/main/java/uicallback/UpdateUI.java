@@ -1,7 +1,7 @@
-package uicallback;
-
-public interface UpdateUI {
-
-    void onUpdateComplete();
-
-}
+//package uicallback;
+//
+//public interface UpdateUI {
+//
+//    void onUpdateComplete();
+//
+//}

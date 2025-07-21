@@ -20,6 +20,8 @@ public class CheckListItem {
     private String    notes;
     private boolean   reminder;
 
+    private boolean osReminder;
+
     public CheckListItem(String name, String dueDate, String dueTime) {
 
         this.checkListName = name;
@@ -31,6 +33,7 @@ public class CheckListItem {
         this.cm = new ClockManipulator(dueTime);
         this.tm = new TimeManipulator(dm, cm);
         this.reminder = false;
+        this.osReminder = false;
 
     }
 
@@ -58,6 +61,8 @@ public class CheckListItem {
         this.tm = new TimeManipulator(dm, cm);
         this.dm.setTimeObj(tm);
         this.cm.setTimeObj(tm);
+
+        this.osReminder = false;
     }
 
 //    public void setDate(String date) {
@@ -122,4 +127,9 @@ public class CheckListItem {
     public void toggleReminder() {
         setReminder(!isReminder());
     }
+
+    public boolean getOsReminder(){
+        return getOsReminder();
+    }
+
 }

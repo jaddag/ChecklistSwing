@@ -179,6 +179,7 @@ public class UIMiscWindow {
         );
 
         if (result == JOptionPane.YES_OPTION) {
+            CountDownLatch latch1 = new CountDownLatch(1);
             String name = nameField.getText().trim();
             if (!name.isEmpty()) {
                 CountDownLatch latch = new CountDownLatch(1);
@@ -194,9 +195,13 @@ public class UIMiscWindow {
                 }
 
                 return name;
+            } else{
+                customAlert(UIConfig.ALERT_EMPTY_NAME);
+                return changeWindow(changeableItem);
             }
+        } else {
+            return changeableItem;
         }
-        return null;
     }
 
     ImageIcon loadIcon(String path) {
@@ -244,6 +249,21 @@ public class UIMiscWindow {
         }
 
         return null;
+    }
+
+    public boolean showConfirmation(String title, String message, String yesText, String noText) {
+        Object[] options = { yesText, noText };
+        int result = JOptionPane.showOptionDialog(
+                null,
+                message,
+                title,
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]
+        );
+        return result == JOptionPane.YES_OPTION;
     }
 
 }

@@ -232,6 +232,7 @@ import data.DataManagement;
 import database.DBManager;
 import languageSupport.LanguageSupport;
 import languageSupport.UIConfig;
+import notification.checkReminder;
 
 import javax.swing.*;
 import java.awt.*;
@@ -258,9 +259,10 @@ public class UIMainWindow {
 
     public void startWindow() {
         DBManager.getInstance().updateMemory();
-        try { UIManager.setLookAndFeel(new com.formdev.flatlaf.themes.FlatMacLightLaf()); }
-        catch (Exception ignored) {}
 
+//        try { UIManager.setLookAndFeel(new com.formdev.flatlaf.themes.FlatMacLightLaf()); }
+//        catch (Exception ignored) {}
+        checkReminder.getInstance().reminderThread();
         SwingUtilities.invokeLater(() -> {
             DataManagement.getInstance().setUI(this);
 
@@ -434,6 +436,12 @@ public class UIMainWindow {
             showList();
         }).start();
     }
+
+    public void updateListLocal() {
+        new Thread(this::showList).start();
+    }
+
+
 }
 
 
