@@ -235,6 +235,9 @@ import languageSupport.UIConfig;
 import notification.checkReminder;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -259,10 +262,12 @@ public class UIMainWindow {
 
     public void startWindow() {
         DBManager.getInstance().updateMemory();
+        DataManagement.getInstance().fillSortedChecklist();
+        try { UIManager.setLookAndFeel(new com.formdev.flatlaf.themes.FlatMacLightLaf()); }
+        catch (Exception ignored) {}
 
-//        try { UIManager.setLookAndFeel(new com.formdev.flatlaf.themes.FlatMacLightLaf()); }
-//        catch (Exception ignored) {}
         checkReminder.getInstance().reminderThread();
+
         SwingUtilities.invokeLater(() -> {
             DataManagement.getInstance().setUI(this);
 
@@ -299,7 +304,7 @@ public class UIMainWindow {
                         .loadIcon(UIConfig.TRASH_ICON_PATH);
                 final boolean iconsOk = icTrue!=null && icFalse!=null && icTrash!=null;
 
-                for (CheckListItem elem : DataManagement.getInstance().getChecklistMap()) {
+                for (CheckListItem elem : DataManagement.getInstance().getSortedChecklist()) {
                     JButton toggle = new JButton();
                     JButton trash  = new JButton();
 
@@ -419,10 +424,37 @@ public class UIMainWindow {
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridy=0; gbc.fill=GridBagConstraints.HORIZONTAL;
-        gbc.weightx=0.8; gbc.gridx=0; topPanel.add(searchField,   gbc);
+        gbc.weightx=0.8; gbc.gridx=0; topPanel.add(searchField,gbc);
         gbc.weightx=0.2; gbc.gridx=1; topPanel.add(settingsButton,gbc);
 
         settingsButton.addActionListener(e -> UISettingsWindow.getInstance().show());
+
+        searchField.getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) {
+                search();
+            }
+            public void removeUpdate(DocumentEvent e) {
+                search();
+            }
+            public void changedUpdate(DocumentEvent e) {
+                search();
+            }
+
+            private void search() {
+                String text = searchField.getText().trim().toLowerCase();
+                if(text.contains("t:")){
+                    String time = text.substring(2);
+
+                    DataManagement.getInstance().updateSortedChecklistMap(
+                            DataManagement.getInstance().getCheckListItemByTime(time).getCheckListName()
+                    );
+                }
+                DataManagement.getInstance().updateSortedChecklistMap(text);
+
+                showList();
+            }
+        });
+
     }
 
     private JPanel buildPanel(String pos, LayoutManager lm) {

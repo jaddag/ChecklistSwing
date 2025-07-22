@@ -41,6 +41,9 @@ public class UIConfig {
     public static final String LOW_PRIORITY = "Niedrig";
     public static final String MED_PRIORITY = "Mittel";
     public static final String HIGH_PRIORITY = "Hoch";
+    public static final String NO_CATEGORY = "keine Kategorie";
+    public static final String ARBEIT = "Arbeit";
+    public static final String SCHULE = "Schule";
 
     //Exception Window
     public static final String ERROR = "Fehler";

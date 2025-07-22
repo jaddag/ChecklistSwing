@@ -26,13 +26,13 @@ public class checkReminder {
     }
 
     public void checkSystem(){
-        for(CheckListItem elem: DataManagement.getInstance().getChecklistMap()){
+        for(CheckListItem elem: DataManagement.getInstance().getChecklist()){
 
         }
     }
 
     public void check(){
-        for(CheckListItem elem: DataManagement.getInstance().getChecklistMap()){
+        for(CheckListItem elem: DataManagement.getInstance().getChecklist()){
             if(elem.getTm().isOverdue()){
                 //TODO: refresh ui
             }
@@ -100,12 +100,5 @@ public class checkReminder {
             e.printStackTrace();
         }
     }
-
-//    public void makeArray(){
-//        OverdueOnce.clear();
-//        for(CheckListItem elem: DataManagement.getInstance().getChecklistMap()){
-//            OverdueOnce.add(elem.getOsReminder());
-//        }
-//    }
 
 }

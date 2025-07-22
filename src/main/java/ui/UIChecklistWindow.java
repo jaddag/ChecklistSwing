@@ -238,7 +238,7 @@ public class UIChecklistWindow {
         addSharedRow.accept(getLabel(UIConfig.NOTES_LABEL), notesPane);
         addSharedRow.accept(getLabel(UIConfig.REMINDER_LABEL), toggleReminder);
         if (cli.getTm().isOverdue()) {
-            addSharedRow.accept(getLabel(UIConfig.DUE_LABEL), centeredJLabel(UIConfig.THE_TASK_IS_OVERDUE));
+            addSharedRow.accept(getLabel(UIConfig.DUE_LABEL), centeredJLabel(UIConfig.IS_OVERDUE_LABEL));
         } else if (cli.getCompleted()){
             addSharedRow.accept(getLabel(UIConfig.DUE_LABEL), centeredJLabel(UIConfig.COMPLETED_LABEL));
         } else if (cli.getTm().hoursBeforeDue() <= 24) {
@@ -382,7 +382,7 @@ public class UIChecklistWindow {
                 .toArray(String[]::new));
         priorityDropdown.setSelectedIndex(cli.getPriority().getInt() - 1);
 
-        categoryDropdown = new JComboBox<>(new String[] {"no category", "arbeit", "schule"});
+        categoryDropdown = new JComboBox<>(new String[] {UIConfig.NO_CATEGORY, UIConfig.ARBEIT, UIConfig.SCHULE});
 //        categoryDropdown = new JComboBox<>(Arrays.stream()
 //                .map(Enum::name)
 //                .toArray(String[]::new));

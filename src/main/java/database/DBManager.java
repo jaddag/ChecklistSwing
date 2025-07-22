@@ -18,6 +18,7 @@ public class DBManager {
         return instance;
     }
 
+    @Deprecated
     public void createDB() {
         String createTable = """
             CREATE TABLE IF NOT EXISTS test (
@@ -111,7 +112,7 @@ public class DBManager {
             stmt.executeUpdate(deleteSql);
             try { stmt.executeUpdate(resetSeq); } catch (SQLException ignore) {}
 
-            for (CheckListItem item : DataManagement.getInstance().getChecklistMap()) {
+            for (CheckListItem item : DataManagement.getInstance().getChecklist()) {
                 ps.setString (1,  item.getCheckListName());
                 ps.setString (2,  item.getDm().getDueDate());
                 ps.setString (3,  item.getCm().getDueTime());
@@ -134,7 +135,7 @@ public class DBManager {
 
     public synchronized void updateMemory() {
         String selectSql = "SELECT * FROM test";
-        DataManagement.getInstance().getChecklistMap().clear();
+        DataManagement.getInstance().getChecklist().clear();
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement  stmt = conn.createStatement();

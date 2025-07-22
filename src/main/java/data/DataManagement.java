@@ -1,5 +1,6 @@
 package data;
 
+import customExceptions.noSuchItemError;
 import database.DBManager;
 import ui.UIMainWindow;
 
@@ -10,11 +11,14 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 public class DataManagement {
 
     private static final DataManagement instance = new DataManagement();
     private ArrayList<CheckListItem> checklist;
+    private ArrayList<CheckListItem> sortedChecklist;
     private UIMainWindow ui;
 
     public void setUI(UIMainWindow ui) {
@@ -23,34 +27,49 @@ public class DataManagement {
 
     private DataManagement() {
         checklist = new ArrayList<>();
+        sortedChecklist = new ArrayList<>();
     }
 
     public static DataManagement getInstance() {
         return instance;
     }
 
-    public ArrayList<CheckListItem> getChecklistMap(){
+    public ArrayList<CheckListItem> getChecklist(){
         return checklist;
     }
 
-    public DefaultListModel<String> getChecklist() {
-        DefaultListModel<String> model = new DefaultListModel<>();
-        for (CheckListItem item : checklist) {
-            model.addElement(item.getCheckListName());
+    public void updateSortedChecklistMap(String filter){
+        if(sortedChecklist != null)
+        assert sortedChecklist != null;
+        sortedChecklist.clear();
+
+        for(CheckListItem elem: checklist){
+            if(elem.getCheckListName().toLowerCase().contains(filter.toLowerCase())){
+                sortedChecklist.add(elem);
+            }
         }
-        return model;
     }
 
-    public DefaultListModel<String> getSortedChecklist() {
-        DefaultListModel<String> sortedModel = new DefaultListModel<>();
+    @Deprecated
+    public ArrayList<CheckListItem> getSortedChecklistOld() {
 
-        List<String> sorted = checklist.stream()
-                .map(CheckListItem::getCheckListName)
+        return sortedChecklist.stream()
                 .sorted()
-                .toList();
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
 
-        sorted.forEach(sortedModel::addElement);
-        return sortedModel;
+    public ArrayList<CheckListItem> getSortedChecklist() {
+        return sortedChecklist.stream()
+                .sorted(Comparator.comparing(CheckListItem::getCheckListName))
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+
+    public void fillSortedChecklist(){
+        if (sortedChecklist != null) sortedChecklist.clear();
+
+        assert sortedChecklist != null;
+        sortedChecklist.addAll(getChecklist());
     }
 
     public void addToList(String itemName, String date, String time) {
@@ -65,8 +84,8 @@ public class DataManagement {
 
     public CheckListItem getCheckListItemByName(String name){
         try {
-            for (CheckListItem elem : getChecklistMap()) {
-                if (elem.getCheckListName().equals(name)) {
+            for (CheckListItem elem : getChecklist()) {
+                if (elem.getCheckListName().equalsIgnoreCase(name)) {
                     return elem;
                 }
             }
@@ -75,6 +94,16 @@ public class DataManagement {
             UIExceptionWindow.getInstance().showException(e);
             return null;
         }
+    }
+
+    public CheckListItem getCheckListItemByTime(String time){
+        for (CheckListItem elem : getChecklist()) {
+            if (elem.getCm().getDueTime().equalsIgnoreCase(time)) {
+                return elem;
+            }
+        }
+
+        return null;
     }
 
     public void removeCheckListItem(CheckListItem item){
@@ -99,7 +128,5 @@ public class DataManagement {
         }
         return true;
     }
-
-
 
 }
