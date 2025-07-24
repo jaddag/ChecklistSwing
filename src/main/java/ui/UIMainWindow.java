@@ -237,7 +237,6 @@ import notification.checkReminder;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -258,15 +257,21 @@ public class UIMainWindow {
     private JPanel topPanel, middlePanel, bottomPanel, checkListItems;
     private JTextField textField, searchField;
     private DateTimePicker dateTimePicker;
-    private JButton submitting, deleteAllButton, settingsButton;
+    private JButton submitting, settingsButton;
+
+    private String selectedSort;
 
     public void startWindow() {
+        DBManager.getInstance().createDB();
         DBManager.getInstance().updateMemory();
         DataManagement.getInstance().fillSortedChecklist();
         try { UIManager.setLookAndFeel(new com.formdev.flatlaf.themes.FlatMacLightLaf()); }
         catch (Exception ignored) {}
 
         checkReminder.getInstance().reminderThread();
+
+        selectedSort = DataManagement.getInstance().sortlistArray()[0];
+        applySort();
 
         SwingUtilities.invokeLater(() -> {
             DataManagement.getInstance().setUI(this);
@@ -275,6 +280,8 @@ public class UIMainWindow {
                     .translate(UIConfig.TITLE));
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(500, 400);
+            frame.setMinimumSize(new Dimension(500, 400));
+
 
             topPanel    = buildPanel(BorderLayout.NORTH,  new GridBagLayout());
             middlePanel = buildPanel(BorderLayout.CENTER,new BorderLayout());
@@ -365,7 +372,7 @@ public class UIMainWindow {
                     trash.addActionListener(ae -> {
                         DataManagement.getInstance().removeCheckListItem(elem);
                         UIChecklistWindow.getInstance().closeWindow(elem.getCheckListName());
-                        updateList();
+                        updateFreshList();
                     });
                 }
 
@@ -385,8 +392,6 @@ public class UIMainWindow {
         textField = new JTextField();
         submitting = new JButton(LanguageSupport.getInstance()
                 .translate(UIConfig.SUBMIT_LABEL));
-        deleteAllButton = UIMiscWindow.getInstance()
-                .iconButton(UIConfig.TRASH_ICON_PATH, UIConfig.TRASHICON);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridy = 0; gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -412,7 +417,9 @@ public class UIMainWindow {
             } else {
                 DataManagement.getInstance()
                         .addToList(name, date.toString(), time.toString());
-                updateList();
+                textField.setText("");
+                searchField.setText("");
+                updateFreshList();
             }
         });
     }
@@ -421,11 +428,57 @@ public class UIMainWindow {
         searchField = new JTextField();
         settingsButton = UIMiscWindow.getInstance()
                 .iconButton(UIConfig.SETTINGS_ICON_PATH, UIConfig.SETTINGSICON);
+        JLabel sortLabel = new JLabel("Sort by:");
+        sortLabel.setOpaque(true);
+        sortLabel.setBackground(topPanel.getBackground());
+        JComboBox<String> sortDropdown = new JComboBox<>(DataManagement.getInstance().sortlistArray());
+        sortDropdown.setPreferredSize(new Dimension(100, 25)); // adjust height as needed
 
+
+//        GridBagConstraints gbc = new GridBagConstraints();
+//        gbc.gridy=0; gbc.fill=GridBagConstraints.HORIZONTAL;
+//        gbc.weightx=0.8; gbc.gridx=0; topPanel.add(searchField,gbc);
+//        gbc.weightx=0.2; gbc.gridx=1; topPanel.add(settingsButton,gbc);
+
+        topPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridy=0; gbc.fill=GridBagConstraints.HORIZONTAL;
-        gbc.weightx=0.8; gbc.gridx=0; topPanel.add(searchField,gbc);
-        gbc.weightx=0.2; gbc.gridx=1; topPanel.add(settingsButton,gbc);
+        gbc.insets = new Insets(5, 5, 5, 5);
+
+        gbc.gridx = 0;
+        gbc.weightx = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        topPanel.add(settingsButton, gbc);
+
+        JPanel sortPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
+        sortPanel.setOpaque(false); // inherit parent background
+
+        sortLabel.setOpaque(true);
+        sortLabel.setBackground(topPanel.getBackground());
+
+        sortDropdown.setPreferredSize(new Dimension(100, 25));
+
+        sortPanel.add(sortLabel);
+        sortPanel.add(sortDropdown);
+
+        gbc.gridx = 1;
+        gbc.weightx = 1;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        topPanel.add(sortPanel, gbc);
+
+        searchField = new JTextField();
+        gbc.gridx = 2;
+        gbc.weightx = 1.0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.EAST;
+        topPanel.add(searchField, gbc);
+
+        searchField.setPreferredSize(new Dimension(20, 25)); // width=200, height=25
+        searchField.setMaximumSize(new Dimension(20, 25));
+
+        settingsButton.setPreferredSize(new Dimension(30, 30));
+        settingsButton.setMaximumSize(new Dimension(30, 30));
+
 
         settingsButton.addActionListener(e -> UISettingsWindow.getInstance().show());
 
@@ -450,11 +503,15 @@ public class UIMainWindow {
                     );
                 }
                 DataManagement.getInstance().updateSortedChecklistMap(text);
-
+                applySort();
                 showList();
             }
         });
 
+        sortDropdown.addActionListener(e -> {
+            selectedSort = (String) sortDropdown.getSelectedItem();
+            updateFreshList();
+        });
     }
 
     private JPanel buildPanel(String pos, LayoutManager lm) {
@@ -462,9 +519,11 @@ public class UIMainWindow {
         frame.add(p,pos); return p;
     }
 
-    public void updateList() {
+    public void updateFreshList(){
         new Thread(() -> {
             DBManager.getInstance().updateDataBase();
+            DataManagement.getInstance().fillSortedChecklist();
+            applySort();
             showList();
         }).start();
     }
@@ -473,7 +532,27 @@ public class UIMainWindow {
         new Thread(this::showList).start();
     }
 
+    public void applySort(){
+        String[] tempArray = DataManagement.getInstance().sortlistArray();
+        if (selectedSort.equals(tempArray[0])) {
+            DataManagement.getInstance().sortByName(false);
+        }
+        else if (selectedSort.equals(tempArray[1])) {
+            DataManagement.getInstance().sortByName(true);
+        }
+        else if (selectedSort.equals(tempArray[2])) {
+            DataManagement.getInstance().sortByDueDate(false);
+        }
+        else if (selectedSort.equals(tempArray[3])) {
+            DataManagement.getInstance().sortByDueDate(true);
+        }
+        else if (selectedSort.equals(tempArray[4])) {
+            DataManagement.getInstance().sortByPriority(false);
+        }
+        else if (selectedSort.equals(tempArray[5])) {
+            DataManagement.getInstance().sortByPriority(true);
+        }
+
+    }
 
 }
-
-

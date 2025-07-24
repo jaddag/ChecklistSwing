@@ -56,7 +56,7 @@ public class checkReminder {
                 try {
                     check();
                     // Calculate time to the start of the next minute
-                    long delay = 60_000 - (System.currentTimeMillis() % 60_000);
+                    long delay = 600_000 - (System.currentTimeMillis() % 60_000);
                     Thread.sleep(delay);
                 } catch (InterruptedException e) {
                     break; // stop the loop if interrupted

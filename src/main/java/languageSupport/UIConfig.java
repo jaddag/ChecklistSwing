@@ -21,6 +21,7 @@ public class UIConfig {
     //Checklist Window
     public static final String FRAME_TITLE_PREFIX = "CheckList";
     public static final String NAME_LABEL = "Name";
+    public static final String DATE_LABEL = "Date";
     public static final String DUE_DATE_LABEL = "Due Date";
     public static final String DUE_TIME_LABEL = "Due Time";
     public static final String DUE_DATE = "Due Date";
@@ -66,6 +67,9 @@ public class UIConfig {
     public static final String INVALID_DATE = "Invalid date format. Expected yyyy-MM-dd";
     public static final String INVALID_TIME = "Invalid time format. Expected HH:mm";
 
+    //DataManagement
+    public static final String ASCENDING = "↑";
+    public static final String DESCENDING = "↓";
 
     //Paths
     public static final String CHECKMARK_ICON_PATH = "/checkmarkw.png";

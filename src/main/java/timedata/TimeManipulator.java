@@ -56,7 +56,10 @@ public class TimeManipulator {
 
     }
 
-
+    public long overdueSinceMinutes(){
+        refresh();
+        return Duration.between(LocalDateTime.of(today, now), LocalDateTime.of(dueDate, dueTime)).toMinutes();
+    }
 
     public long minutesBeforeDue() {
         refresh();

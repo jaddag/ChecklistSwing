@@ -65,18 +65,6 @@ public class CheckListItem {
         this.osReminder = false;
     }
 
-//    public void setDate(String date) {
-//        this.date = date;
-//        dm.setDueDate(date);
-//        update();
-//    }
-//
-//    public void setTime(String time) {
-//        this.time = time;
-//        cm.setDueTime(time);
-//        update();
-//    }
-
     public void setCompleted(boolean completed) {
         this.isCompleted = completed;
         update();
@@ -105,7 +93,6 @@ public class CheckListItem {
     public void setName(String checkListName){
         this.checkListName = checkListName;
     }
-
     public String getCheckListName() {return checkListName;}
     public boolean getCompleted() {return isCompleted;}
     public DateManipulator  getDm() {return dm;}

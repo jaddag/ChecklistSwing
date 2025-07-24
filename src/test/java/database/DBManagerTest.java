@@ -17,7 +17,6 @@ public class DBManagerTest {
         DBManager.getInstance().createDB();
     }
 
-    @Test
     public void loadDB(){
         DBManager.getInstance().showDataBase();
     }

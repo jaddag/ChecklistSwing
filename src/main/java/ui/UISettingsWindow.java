@@ -78,6 +78,7 @@
 
 package ui;
 
+import data.DataManagement;
 import languageSupport.LanguageSupport;
 import languageSupport.UIConfig;
 
@@ -146,10 +147,12 @@ public class UISettingsWindow {
         });
 
         deleteAllBtn.addActionListener(e -> {
-            UIMiscWindow.getInstance().confirmDeleteAlert(() ->
-                    UIMainWindow.getInstance().updateList()
-            );
+            UIMiscWindow.getInstance().confirmDeleteAlert(() -> {
+                DataManagement.getInstance().deteleAll();
+                UIMainWindow.getInstance().updateFreshList();
+            });
         });
+
 
         frame.setVisible(true);
     }

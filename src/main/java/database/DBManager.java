@@ -3,12 +3,19 @@ package database;
 import data.CheckListItem;
 import data.DataManagement;
 
+import java.io.File;
 import java.sql.*;
 
 public class DBManager {
 
     private static final DBManager instance = new DBManager();
-    private static final String DB_URL = "jdbc:sqlite:mydb.db";
+    private static String DB_URL;
+
+    static {
+        String dbPath = System.getProperty("user.home") + File.separator + "ToDoDatenbank" + File.separator + "datenbank.db";
+        new File( System.getProperty("user.home") + File.separator + "ToDoDatenbank").mkdirs();
+        DB_URL = "jdbc:sqlite:" + dbPath;
+    }
 
     private DBManager() {
         // private constructor
@@ -18,7 +25,6 @@ public class DBManager {
         return instance;
     }
 
-    @Deprecated
     public void createDB() {
         String createTable = """
             CREATE TABLE IF NOT EXISTS test (
@@ -41,7 +47,6 @@ public class DBManager {
              Statement stmt = conn.createStatement()) {
 
             stmt.execute(createTable);
-            System.out.println("Database and table created.");
 
         } catch (SQLException e) {
             e.printStackTrace();

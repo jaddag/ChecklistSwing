@@ -179,13 +179,9 @@ public class UIChecklistWindow {
             cw.middlePanel.setLayout(new BorderLayout());
 
             initComponents(cli);
-
             loadIcons(iconsOk);
-
             styleButtons();
-
             addElements();
-
             ActionListeners(iconsOk);
         });
     }
@@ -199,8 +195,6 @@ public class UIChecklistWindow {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridy = 0;
-
-
 
         // Helper to add a row with optional button
         TriConsumer<String, JComponent, JComponent> addRow = (label, comp, button) -> {
@@ -255,27 +249,30 @@ public class UIChecklistWindow {
     }
 
     private void ActionListeners(boolean iconsOk) {
-        //Action Listener
         changeName.addActionListener(e -> {
             cli.setName(UIMiscWindow.getInstance().changeWindow(cli.getCheckListName()));
             cw.frame.setTitle(cli.getCheckListName());
-            UIMainWindow.getInstance().updateList();
+            UIMainWindow.getInstance().updateFreshList();
             checklistItemName.setText(LanguageSupport.getInstance().translate(String.valueOf(cli.getCheckListName())));
         });
 
         changeDueDate.addActionListener(e -> {
             cli.getTm().setDateTime(UIMiscWindow.getInstance().changeWindowWithDateTime(String.valueOf(LanguageSupport.getInstance().translate(cli.getDm().getDueDate()) + UIConfig.EMPTY + LanguageSupport.getInstance().translate(cli.getCm().getDueTime()))));
-            UIMainWindow.getInstance().updateList();
+            UIMainWindow.getInstance().updateFreshList();
+            UIMainWindow.getInstance().updateFreshList();
             showStats();
         });
 
         priorityDropdown.addActionListener(e -> {
             String selected = (String) priorityDropdown.getSelectedItem();
             cli.setPriority(Priority.valueOf(selected));
+            UIMainWindow.getInstance().applySort();
+            UIMainWindow.getInstance().updateFreshList();
         });
 
         categoryDropdown.addActionListener(e -> {
             String selected = (String) categoryDropdown.getSelectedItem();
+            cli.setCategory(selected);
         });
 
         JScrollPane scrollPane = new JScrollPane(content,

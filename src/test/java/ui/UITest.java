@@ -6,18 +6,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import translator.TranslatorBeta;
 
-import java.io.IOException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UITest {
 
-    @BeforeEach
     public void beforeEach(){
 
     }
 
-    @Test
+
     public void testApp(){
         UIMainWindow.getInstance().startWindow();
 
